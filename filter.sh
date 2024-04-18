@@ -1,18 +1,15 @@
 #!/bin/bash
 
-for ((i=89; i<=94; i ++))
- do
- awk -F, '$2 = /s*HUMAN/' SRR$i.blast.txt > out$i.txt
- awk '$11 < 1e-5' out$i.txt > filtered$i.txt
- awk '$12 > 40' filtered$i.txt > filtered_bit$i.txt
- cut -f1 filtered_bit$i.txt > unique$i.txt
- sort -u unique$i.txt > noval$i.txt
- seqtk subseq /home/neo/atharva/CPC2/non_coding_seq/nc_SRR$i.fa  /home/neo/atharva/blast_output/noval$i.txt > /home/neo/atharva/blast_output/noval$i.fa
- grep ">" noval$i.fa | wc -l >> count.txt
+ awk -F, '$2 = /s*HUMAN/' SRR.blast.txt > out.txt
+ awk '$11 < 1e-5' out.txt > filtered_evalue.txt
+ awk '$12 > 40' filtered_evalue.txt > filtered_bit.txt
+ cut -f1 filtered_bit.txt > unique_seq.txt
+ sort -u unique_seq.txt > noval_seq.txt
+ seqtk subseq /path/to/sequence/files/SRR.fa  /path/to/filtered/blast/output/noval_seq.txt > /path/to/save/output/noval_seq.fa
+ grep ">" noval_seq.fa | wc -l >> seq_count.txt
  
- rm out$i.txt
- rm filtered$i.txt
- rm filtered_bit$i.txt
- rm unique$i.txt
+ rm out.txt
+ rm filtered_evalue.txt
+ rm filtered_bit.txt
+ rm unique_seq.txt
 
-done 
